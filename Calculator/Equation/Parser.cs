@@ -227,13 +227,13 @@ namespace Calculator
             if (!string.IsNullOrEmpty(errorStr))
                 return errorStr;
 
-            List<string> segments = ConvertToPostfixNotation(ConvertEquationToSegments(equation));
+            List<string> segments = ConvertEquationToSegments(equation);
 
             errorStr = bracketsControl.CheckEquationBrackets(segments);
             if (!string.IsNullOrEmpty(errorStr))
                 return errorStr;
 
-            return operationProvider.CalculateEquation(segments);
+            return operationProvider.CalculateEquation(ConvertToPostfixNotation(segments));
         }
 
 
