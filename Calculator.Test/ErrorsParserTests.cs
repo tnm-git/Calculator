@@ -36,6 +36,7 @@ namespace Calculator.Test
         [DataRow("/2")] // 7
         [DataRow("8.6.5")] // 8
         [DataRow("22,1 * 3 + (4)")] // 9
+        [DataRow("22^2)")] // 10
         public void FormatErrorsTest(string equation)
         {
             Parser parser = new Parser();

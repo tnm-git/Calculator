@@ -11,6 +11,7 @@ namespace Calculator.Test
         [DataRow("3(-25(62-7)+4*(3-2))/48^3", "-0.0372")] // 3
         [DataRow("2.2*4-sin(3)/2", "8.7294")] // 4
         [DataRow("sin(3.14 + 2 (-4) / 6)", "0.9723")] // 5
+        [DataRow("(3^1)7(8+2)", "210.0000")] // 6
         public void SolveTest1(string equation, string expected)
         {
             Parser parser = new Parser();

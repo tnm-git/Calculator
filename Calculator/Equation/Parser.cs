@@ -105,14 +105,24 @@ namespace Calculator
                     resultSegments.Add("0");
                 }
 
-                // добавить * перед скобкой
+                // добавить * перед открывающей скобкой
                 if ((idx > 0 && s.Equals(bracketsControl.Current.Open) && (ContainsDigitOrDot(prev) ||
                     prev.Equals(bracketsControl.Current.Close))))
                 {
                     resultSegments.Add("*");
                 }
+                else
+                {
+                    // добавить * после закрывающей скобки
+                    if ((idx > 0 && (ContainsDigitOrDot(s) || s.Equals(bracketsControl.Current.Open)) &&
+                        prev.Equals(bracketsControl.Current.Close)))
+                    {
+                        resultSegments.Add("*");
+                    }
+                }
 
                 resultSegments.Add(s);
+
                 prev = s;
                 idx++;
             }

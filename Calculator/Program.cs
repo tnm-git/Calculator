@@ -7,7 +7,7 @@ namespace Calculator
         static void Main(string[] args)
         {
             string equ;
-            Parser parser = new Parser();
+            Parser parser = new Parser(); 
 
             while (true)
             {
