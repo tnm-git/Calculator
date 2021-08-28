@@ -1,6 +1,9 @@
 ﻿
 namespace Calculator
 {
+    /// <summary>
+    /// Произведение двух чисел
+    /// </summary>
     public class Mult : BinaryOperation
     {
         public override int GetValue(int a, int b) => a * b;

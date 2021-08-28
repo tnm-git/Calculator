@@ -4,24 +4,37 @@ namespace Calculator
 {
     public class BracketsControl
     {
+
+        /// <summary>
+        /// Скобки для выражений, могут в принципе называться scopeO scopeC
+        /// </summary>
         readonly private List<Bracket> brackets = new List<Bracket>()
         {
             new Bracket("(", ")", 1),
             //new Bracket("{", "}", 2)
         };
 
-        public Bracket Current;
+        public Bracket Current; // текущая пара скобок
 
         public BracketsControl()
         {
             Current = new Bracket(brackets[0]);
         }
 
+        /// <summary>
+        /// Содержат ли скобки элемент
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
         public bool Contains(char s)
         {
             return GetAllBrackets().Contains(s);
         }
 
+        /// <summary>
+        /// Получить все скобки в виде строки
+        /// </summary>
+        /// <returns></returns>
         private string GetAllBrackets()
         {
             string res = string.Empty;
@@ -33,10 +46,15 @@ namespace Calculator
             return res;
         }
 
+        /// <summary>
+        /// Возвращает строку с ошибкой, если скобки некорректны
+        /// </summary>
+        /// <param name="segments"></param>
+        /// <returns></returns>
         public string CheckEquationBrackets(List<string> segments)
         {
-            int openBracketsCount = 0;
-            int closeBracketsCount = 0;
+            int openBracketsCount = 0; // счетчик открытых скобок
+            int closeBracketsCount = 0; // счетчик закрытых скобок
 
             foreach (string s in segments)
             {

@@ -8,6 +8,9 @@ namespace Calculator
         OperationProvider operationProvider;
         BracketsControl bracketsControl;
 
+        /// <summary>
+        /// Символы разделителей операндов выражения
+        /// </summary>
         readonly private string[] symbolsSeparators =
         {
             " ",
@@ -21,11 +24,18 @@ namespace Calculator
             bracketsControl = new BracketsControl();
             SetCultureToInvariant();
         }
+
         public bool IsDigitOrDot(char s)
         {
             return Char.IsDigit(s) || s.Equals('.');
         }
 
+
+        /// <summary>
+        /// Проверить выражение по всем возможным символам (скобки, операции, функции)
+        /// </summary>
+        /// <param name="equation"></param>
+        /// <returns>пусто, если нет символов, не входящих в выр-я</returns>
         public string CheckEquation(string equation)
         {
             for (int i = 0; i < equation.Length; i++)
@@ -41,12 +51,20 @@ namespace Calculator
             return string.Empty; 
         }
 
+        /// <summary>
+        /// Чтобы при парсинге в decimal использовать точку
+        /// </summary>
         private void SetCultureToInvariant()
         {
             System.Threading.Thread.CurrentThread.CurrentCulture =
                 new System.Globalization.CultureInfo("en-US");
         }
 
+        /// <summary>
+        /// Удалить все разделители
+        /// </summary>
+        /// <param name="equation"></param>
+        /// <returns></returns>
         private string RemoveSeparators(string equation)
         {
             foreach (string s in symbolsSeparators)
@@ -54,6 +72,7 @@ namespace Calculator
 
             return equation;
         }
+
 
         private bool ContainsDigitOrDot(string str)
         {
@@ -67,6 +86,11 @@ namespace Calculator
             return false;
         }
 
+        /// <summary>
+        /// Добавить скрытые операторы для правильной обработки выражений
+        /// </summary>
+        /// <param name="segments">раздлеленные операнды выражения</param>
+        /// <returns></returns>
         private List<string> AddUnvisibleOperands(List <string> segments)
         {
             int idx = 0;
@@ -74,12 +98,14 @@ namespace Calculator
             List<string> resultSegments = new List<string>();
             foreach (string s in segments)
             {
+                // добавить 0 перед минусом или 0 перед плюсом
                 if ((idx > 0 && (s.Equals("-") || s.Equals("+")) && prev.Equals(bracketsControl.Current.Open)) || 
                     (idx == 0 && (s.Equals("-") || s.Equals("+"))))
                 {
                     resultSegments.Add("0");
                 }
 
+                // добавить * перед скобкой
                 if ((idx > 0 && s.Equals(bracketsControl.Current.Open) && (ContainsDigitOrDot(prev) ||
                     prev.Equals(bracketsControl.Current.Close))))
                 {
@@ -93,6 +119,11 @@ namespace Calculator
             return resultSegments;
         }
 
+        /// <summary>
+        /// Преобразовать выражение в последовательность операндов
+        /// </summary>
+        /// <param name="equation"></param>
+        /// <returns></returns>
         public List<string> ConvertEquationToSegments(string equation)
         {
             List<string> segments = new List<string>();
@@ -104,25 +135,25 @@ namespace Calculator
             {
                 if (IsDigitOrDot(equation[i]) || operationProvider.ContainsNameLength(equation[i]) > 1)
                 {
-                    start = true;
-                    segment += equation[i];
+                    start = true; // начало имени функции или выражения с length > 1
+                    segment += equation[i]; // заполняем строку
                 }
                 else
                 {
-                    if (start)
+                    if (start) 
                     {
                         stop = true;
                         start = false;
                     }
                 }
 
-                if (stop)
+                if (stop) // по окончанию строки
                 {
                     stop = false;
-                    segments.Add(segment);
+                    segments.Add(segment); // добавляем в коллекцию
                     segment = string.Empty;
                 }
-
+                // для символом операндов с длиной 1
                 if (operationProvider.ContainsNameLength(equation[i]) == 1 || 
                     bracketsControl.Contains(equation[i]))
                 {
@@ -130,13 +161,17 @@ namespace Calculator
                 }
             }
 
-            if (start)
+            if (start) // для последнего символа
                 segments.Add(segment);
 
             return AddUnvisibleOperands(segments);
         }
 
-
+        /// <summary>
+        /// Кодируем последовательность в постфиксную нотацию (обратная Польская) 
+        /// </summary>
+        /// <param name="segments"></param>
+        /// <returns></returns>
         public List<string> ConvertToPostfixNotation(List<string> segments)
         {
             Stack<string> stack = new Stack<string>();
@@ -180,6 +215,11 @@ namespace Calculator
             return result;
         }
 
+        /// <summary>
+        /// Оболочка для Solve operationProvider
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public string Solve(string input)
         {
             string equation = RemoveSeparators(input);

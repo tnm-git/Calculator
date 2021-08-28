@@ -1,6 +1,9 @@
 ﻿
 namespace Calculator
 {
+    /// <summary>
+    /// Частное двух чисел
+    /// </summary>
     public class Divide : BinaryOperation
     {
         public override int GetValue(int a, int b) => a / b;

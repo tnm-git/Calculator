@@ -1,6 +1,9 @@
 ﻿
 namespace Calculator
 {
+    /// <summary>
+    /// Факториал числа
+    /// </summary>
     public class Factorial : ArgumentOperation
     {
         public override int GetValue(int a)

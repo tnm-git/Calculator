@@ -6,7 +6,7 @@ namespace Calculator
     {
         static void Main(string[] args)
         {
-            string equ = "1+7-11/2+5.3*4*2";
+            string equ;
             Parser parser = new Parser();
 
             while (true)

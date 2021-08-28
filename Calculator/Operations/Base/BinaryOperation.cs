@@ -1,6 +1,9 @@
 ﻿
 namespace Calculator
 {
+    /// <summary>
+    /// Операция с двумя аргументами типа a + b, a % b, a ^ b
+    /// </summary>
     public abstract class BinaryOperation : IOperation
     {
         public virtual int Priority { set; get; } = 1;

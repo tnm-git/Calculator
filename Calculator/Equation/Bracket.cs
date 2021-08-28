@@ -1,11 +1,15 @@
 ﻿
 namespace Calculator
 {
+
+    /// <summary>
+    /// Пара скобок
+    /// </summary>
     public class Bracket
     {
-        string open;
-        string close;
-        int priority;
+        string open; // обозначение открытой
+        string close; // обозначение закрытой
+        int priority; // приоритет
 
         public Bracket(string open, string close, int priority)
         {
